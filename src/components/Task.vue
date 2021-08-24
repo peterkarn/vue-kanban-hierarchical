@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="task">
     <h3>{{ properTask.title }}</h3>
     <p>{{ properTask.descr }}</p>
     <p>{{ properTask.fullDescr }}</p>
@@ -72,3 +72,8 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.task {
+  cursor: grab;
+}
+</style>

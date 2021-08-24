@@ -74,6 +74,9 @@ export default createStore({
         })
       );
     },
+    reorderTasks(state, { properColumnTasks, board, col }) {
+      state.boards[board].columns[col].tasks = properColumnTasks;
+    },
   },
   actions: {
     addBoard(context) {

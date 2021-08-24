@@ -4,13 +4,15 @@
     <!-- <button @click="addTaskTo(properColumn)">Add Task</button> -->
     <button @click="showPopup">Add Task</button>
     <ul>
-      <li v-for="(task, i) in properColumnTasks" :key="task.id">
-        <task
-          :taskIndex="i"
-          :properColumn="this.properColumn"
-          :properBoard="this.properBoard"
-        ></task>
-      </li>
+      <draggable v-model="draggables" group="todos">
+        <li v-for="(task, i) in properColumnTasks" :key="task.id">
+          <task
+            :taskIndex="i"
+            :properColumn="this.properColumn"
+            :properBoard="this.properBoard"
+          ></task>
+        </li>
+      </draggable>
     </ul>
     <popup
       btnName="Add Task"
@@ -41,6 +43,7 @@
 import { mapActions, mapState } from "vuex";
 import Task from "./Task.vue";
 import Popup from "./Popup.vue";
+import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
   props: {
@@ -60,6 +63,7 @@ export default {
   components: {
     Task,
     Popup,
+    draggable: VueDraggableNext,
   },
   methods: {
     showPopup() {
@@ -94,6 +98,18 @@ export default {
       const b = this.properBoard;
       const c = this.properColumn;
       return this.$store.state.boards[b].columns[c].tasks;
+    },
+    draggables: {
+      get() {
+        return this.properColumnTasks;
+      },
+      set(properColumnTasks) {
+        this.$store.commit("reorderTasks", {
+          properColumnTasks,
+          board: this.properBoard,
+          col: this.properColumn,
+        });
+      },
     },
   },
 };
