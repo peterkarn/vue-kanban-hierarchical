@@ -1,8 +1,6 @@
 <template>
   <div>
-    <span
-      >column-component <strong>{{ properColumn }}</strong></span
-    >
+    <span>column-component</span>
     <!-- <button @click="addTaskTo(properColumn)">Add Task</button> -->
     <button @click="showPopup">Add Task</button>
     <ul>

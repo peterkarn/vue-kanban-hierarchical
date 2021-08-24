@@ -60,6 +60,20 @@ export default createStore({
         })
       );
     },
+    updateTask(state, updatedTask) {
+      state.boards[updatedTask.properBoard].columns[
+        updatedTask.properColumn
+      ].tasks.splice(
+        [updatedTask.taskIndex],
+        1,
+        new Task({
+          id: (this.state.nextTaskId += 1),
+          title: updatedTask.newTitle,
+          descr: updatedTask.newDescr,
+          fullDescr: updatedTask.newFullDescr,
+        })
+      );
+    },
   },
   actions: {
     addBoard(context) {
@@ -70,6 +84,9 @@ export default createStore({
     },
     addTask(context, payload) {
       context.commit("addTask", payload);
+    },
+    updateTask(context, updatedTask) {
+      context.commit("updateTask", updatedTask);
     },
   },
   modules: {},

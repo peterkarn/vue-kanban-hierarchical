@@ -3,13 +3,18 @@
     <h3>{{ properTask.title }}</h3>
     <p>{{ properTask.descr }}</p>
     <p>{{ properTask.fullDescr }}</p>
-    <button @click="showPopup">Show modal</button>
+    <button @click="showPopup">Edit</button>
   </div>
-  <popup btnName="Edit Task" v-if="isPopupVisible" @closePopup="closePopup">
-    <p>Task Title</p>
-    <p>Task id</p>
-    <p>Task Descr</p>
-    <p>Task Details</p>
+  <popup
+    btnName="Edit Task"
+    v-if="isPopupVisible"
+    @closePopup="closePopup"
+    @confirmEdit="updateTask"
+  >
+    <input type="text" v-model="taskToUpdate.newTitle" />
+    <input type="text" v-model="taskToUpdate.newDescr" />
+    <input type="text" v-model="taskToUpdate.newFullDescr" />
+    <pre>{{ taskToUpdate }}</pre>
   </popup>
 </template>
 
@@ -28,6 +33,14 @@ export default {
   data() {
     return {
       isPopupVisible: false,
+      taskToUpdate: {
+        newTitle: "",
+        newDescr: "",
+        newFullDescr: "",
+        taskIndex: this.taskIndex,
+        properColumn: this.properColumn,
+        properBoard: this.properBoard,
+      },
     };
   },
   methods: {
@@ -37,6 +50,16 @@ export default {
     closePopup() {
       this.isPopupVisible = false;
     },
+    resetFields() {
+      this.taskToUpdate.newTitle = "";
+      this.taskToUpdate.newDescr = "";
+      this.taskToUpdate.newFullDescr = "";
+    },
+    updateTask() {
+      this.$store.dispatch("updateTask", this.taskToUpdate);
+      this.closePopup();
+      this.resetFields();
+    },
   },
   computed: {
     ...mapState({ columns: (state) => state.boards.columns }),
@@ -44,7 +67,6 @@ export default {
       const b = this.properBoard;
       const c = this.properColumn;
       const i = this.taskIndex;
-      console.log(this.$store.state.boards[b].columns[c].tasks[i]);
       return this.$store.state.boards[b].columns[c].tasks[i];
     },
   },

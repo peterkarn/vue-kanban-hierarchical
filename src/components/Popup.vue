@@ -22,6 +22,7 @@ export default {
   props: {
     btnName: String,
   },
+  emits: ["closePopup", "confirmEdit"],
   methods: {
     closePopup() {
       this.$emit("closePopup");

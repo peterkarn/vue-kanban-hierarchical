@@ -1,8 +1,6 @@
 <template>
   <div>
-    <span
-      >board-component <strong>{{ properBoard }}</strong>
-    </span>
+    <span>board-component </span>
     <button @click="addColumnTo(properBoard)">Add column</button>
     <ul>
       <li v-for="(column, i) in properBoardColumns" :key="column.id">
