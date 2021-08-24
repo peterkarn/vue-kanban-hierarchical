@@ -48,11 +48,17 @@ export default createStore({
     addTask(state, payload) {
       const c = payload.properties.properColumn;
       const b = payload.properties.properBoard;
+      const title = payload.properties.taskData.title;
+      const descr = payload.properties.taskData.descr;
+      const fullDescr = payload.properties.taskData.fullDescr;
       state.boards[b].columns[c].tasks.push(
         new Task({
           id: (this.state.nextTaskId += 1),
+          title: title,
+          descr: descr,
+          fullDescr: fullDescr,
         })
-      )
+      );
     },
   },
   actions: {

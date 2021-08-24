@@ -1,9 +1,11 @@
 <template>
   <div>
-    <p>task text</p>
+    <h3>{{ properTask.title }}</h3>
+    <p>{{ properTask.descr }}</p>
+    <p>{{ properTask.fullDescr }}</p>
     <button @click="showPopup">Show modal</button>
   </div>
-  <popup v-if="isPopupVisible" @closePopup="closePopup">
+  <popup btnName="Edit Task" v-if="isPopupVisible" @closePopup="closePopup">
     <p>Task Title</p>
     <p>Task id</p>
     <p>Task Descr</p>
@@ -12,9 +14,14 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Popup from "./Popup.vue";
 export default {
-  props: {},
+  props: {
+    taskIndex: Number,
+    properColumn: Number,
+    properBoard: Number,
+  },
   components: {
     Popup,
   },
@@ -31,6 +38,15 @@ export default {
       this.isPopupVisible = false;
     },
   },
-  computed: {},
+  computed: {
+    ...mapState({ columns: (state) => state.boards.columns }),
+    properTask() {
+      const b = this.properBoard;
+      const c = this.properColumn;
+      const i = this.taskIndex;
+      console.log(this.$store.state.boards[b].columns[c].tasks[i]);
+      return this.$store.state.boards[b].columns[c].tasks[i];
+    },
+  },
 };
 </script>

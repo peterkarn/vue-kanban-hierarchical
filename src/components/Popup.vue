@@ -6,9 +6,11 @@
       </div>
       <div class="v-popup__content"><slot></slot></div>
       <div class="v-popup__footer">
-        <button class="v-popup__btn v-popup__btn_add">Edit Task</button>
         <button @click="closePopup" class="v-popup__btn v-popup__btn_cancel">
           Cancel
+        </button>
+        <button @click="confirmEdit" class="v-popup__btn v-popup__btn_add">
+          {{ btnName }}
         </button>
       </div>
     </div>
@@ -17,10 +19,15 @@
 
 <script>
 export default {
-  props: {},
+  props: {
+    btnName: String,
+  },
   methods: {
     closePopup() {
       this.$emit("closePopup");
+    },
+    confirmEdit() {
+      this.$emit("confirmEdit");
     },
   },
   computed: {},
