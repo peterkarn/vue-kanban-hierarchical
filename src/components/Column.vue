@@ -1,6 +1,5 @@
 <template>
   <div>
-    <span>column-component</span> <br />
     <button @click="showPopup">Add Task</button>
     <ul class="tasks">
       <draggable v-model="draggables" group="tasks">
@@ -31,9 +30,6 @@
         Details
         <input type="text" v-model="taskData.fullDescr" />
       </label>
-      <pre>
-        {{ taskData }}
-      </pre>
     </popup>
   </div>
 </template>

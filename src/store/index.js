@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 class Board {
   constructor({ id = null, columns = [], slug = "" } = {}) {
@@ -32,6 +33,7 @@ const store = createStore({
     nextTaskId: 0,
     boards: [],
   },
+  plugins: [createPersistedState()],
   mutations: {
     addBoard(state, newBoard) {
       state.boards.push(
@@ -41,10 +43,11 @@ const store = createStore({
         })
       );
     },
-    addColumn(state, properBoard) {
-      state.boards[properBoard].columns.push(
+    addColumn(state, newColumn) {
+      state.boards[newColumn.columnBoard].columns.push(
         new Column({
           id: (this.state.nextColId += 1),
+          title: newColumn.columnTitle,
         })
       );
     },
@@ -91,8 +94,8 @@ const store = createStore({
     addNewBoard(context, newBoard) {
       context.commit("addBoard", newBoard);
     },
-    addColumn(context, properBoard) {
-      context.commit("addColumn", properBoard);
+    addColumn(context, newColumn) {
+      context.commit("addColumn", newColumn);
     },
     addTask(context, payload) {
       context.commit("addTask", payload);
@@ -100,23 +103,8 @@ const store = createStore({
     updateTask(context, updatedTask) {
       context.commit("updateTask", updatedTask);
     },
-    // removeTask(context, taskToRemove) {
-    //   // context.commit("removeTask", taskToRemove);
-    //   console.log(taskToRemove);
-    //   console.log(context);
-    // },
   },
   modules: {},
 });
-
-// store.subscribe((mutation, state) => {
-//   localStorage.setItem("store", JSON.stringify(state));
-// });
-
-// store.subscribe((mutation, state) => {
-//   if (mutation === "removeTask") {
-//     localStorage.setItem("store", JSON.stringify(state));
-//   }
-// });
 
 export default store;

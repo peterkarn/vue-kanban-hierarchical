@@ -21,9 +21,6 @@ export default {
   computed: {
     ...mapState({ boards: (state) => state.boards }),
   },
-  // beforeCreate() {
-  //   this.$store.commit("initialiseStore");
-  // },
 };
 </script>
 

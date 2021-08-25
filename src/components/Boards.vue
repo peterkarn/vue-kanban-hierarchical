@@ -21,9 +21,6 @@
         <span>Board slug</span>
         <input type="text" v-model="newBoard.boardSlug" />
       </label>
-      <pre>
-          {{ newBoard.boardSlug }}
-      </pre>
     </popup>
   </div>
 </template>
