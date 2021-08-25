@@ -1,21 +1,29 @@
 <template>
   <div id="app">
-   <boards></boards>
+    <div class="page-header">
+      <h1>Kanban Board</h1>
+      <p>vuejs based</p>
+      <hr />
+    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import Boards from "./components/Boards.vue";
+// import Boards from "./components/Boards.vue";
 
 export default {
   props: {},
   components: {
-    Boards,
+    // Boards,
   },
   computed: {
     ...mapState({ boards: (state) => state.boards }),
   },
+  // beforeCreate() {
+  //   this.$store.commit("initialiseStore");
+  // },
 };
 </script>
 

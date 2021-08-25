@@ -3,7 +3,10 @@
     <h3>{{ properTask.title }}</h3>
     <p>{{ properTask.descr }}</p>
     <p>{{ properTask.fullDescr }}</p>
-    <button @click="showPopup">Edit</button>
+    <div class="task__btns">
+      <button @click="removeTask">Remove Task</button>
+      <button @click="showPopup">Edit</button>
+    </div>
   </div>
   <popup
     btnName="Edit Task"
@@ -11,10 +14,18 @@
     @closePopup="closePopup"
     @confirmEdit="updateTask"
   >
-    <input type="text" v-model="taskToUpdate.newTitle" />
-    <input type="text" v-model="taskToUpdate.newDescr" />
-    <input type="text" v-model="taskToUpdate.newFullDescr" />
-    <pre>{{ taskToUpdate }}</pre>
+    <label>
+      <span>Edit task title</span>
+      <input type="text" v-model="taskToUpdate.newTitle" />
+    </label>
+    <label>
+      <span>Edit task description</span>
+      <input type="text" v-model="taskToUpdate.newDescr" />
+    </label>
+    <label>
+      <span>Edit task details</span>
+      <input type="text" v-model="taskToUpdate.newFullDescr" />
+    </label>
   </popup>
 </template>
 
@@ -25,7 +36,7 @@ export default {
   props: {
     taskIndex: Number,
     properColumn: Number,
-    properBoard: Number,
+    properBoard: String,
   },
   components: {
     Popup,
@@ -60,6 +71,17 @@ export default {
       this.closePopup();
       this.resetFields();
     },
+    removeTask() {
+      this.$store.commit({
+        type: "removeTask",
+        properties: {
+          id: this.taskIndex,
+          properColumn: this.properColumn,
+          properBoard: this.properBoard,
+        },
+      });
+    },
+    // ...mapActions(["removeTask"]),
   },
   computed: {
     ...mapState({ columns: (state) => state.boards.columns }),
@@ -75,5 +97,14 @@ export default {
 <style lang="scss">
 .task {
   cursor: grab;
+
+  &__btns {
+    display: grid;
+    gap: 5px;
+
+    button {
+      cursor: pointer;
+    }
+  }
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <span>board-component </span>
-    <button @click="addColumnTo(properBoard)">Add column</button>
-    <ul>
+    <router-link to="/">Back to boards list</router-link> <br />
+    <button @click="addColumnTo">Add column</button>
+    <ul class="boards-list">
       <li v-for="(column, i) in properBoardColumns" :key="column.id">
         <column :properBoard="properBoard" :properColumn="i"></column>
       </li>
@@ -15,15 +15,21 @@ import { mapActions, mapState } from "vuex";
 import Column from "./Column.vue";
 
 export default {
+  // data() {
+  //   // return {
+  //   //   properBoard: this.$route.params.properBoard,
+  //   // };
+  // },
   props: {
-    properBoard: Number,
+    properBoard: String,
+    slug: Number,
   },
   components: {
     Column,
   },
   methods: {
-    addColumnTo(properBoard) {
-      this.$store.dispatch("addColumn", properBoard);
+    addColumnTo() {
+      this.$store.dispatch("addColumn", this.properBoard);
     },
     ...mapActions(["addColumn"]),
   },
@@ -35,3 +41,12 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.boards-list {
+  display: flex;
+  gap: 20px;
+  li {
+    display: block;
+  }
+}
+</style>

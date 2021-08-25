@@ -1,9 +1,7 @@
 <template>
   <div class="v-popup">
     <div class="v-popup__body">
-      <div class="v-popup__header">
-        <span>Popup name</span>
-      </div>
+      <div class="v-popup__header">{{ modalTitle }}</div>
       <div class="v-popup__content"><slot></slot></div>
       <div class="v-popup__footer">
         <button @click="closePopup" class="v-popup__btn v-popup__btn_cancel">
@@ -21,6 +19,7 @@
 export default {
   props: {
     btnName: String,
+    modalTitle: String,
   },
   emits: ["closePopup", "confirmEdit"],
   methods: {
@@ -67,7 +66,8 @@ export default {
     flex-direction: column;
     label {
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
+      flex-direction: column;
       input {
         width: 100%;
       }

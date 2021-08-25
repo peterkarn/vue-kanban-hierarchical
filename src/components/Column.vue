@@ -1,10 +1,9 @@
 <template>
   <div>
-    <span>column-component</span>
-    <!-- <button @click="addTaskTo(properColumn)">Add Task</button> -->
+    <span>column-component</span> <br />
     <button @click="showPopup">Add Task</button>
-    <ul>
-      <draggable v-model="draggables" group="todos">
+    <ul class="tasks">
+      <draggable v-model="draggables" group="tasks">
         <li v-for="(task, i) in properColumnTasks" :key="task.id">
           <task
             :taskIndex="i"
@@ -48,7 +47,7 @@ import { VueDraggableNext } from "vue-draggable-next";
 export default {
   props: {
     properColumn: Number,
-    properBoard: Number,
+    properBoard: String,
   },
   data() {
     return {
@@ -114,3 +113,9 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.tasks {
+  min-height: 500px;
+  padding: 0;
+}
+</style>

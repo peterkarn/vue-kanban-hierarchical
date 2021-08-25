@@ -1,16 +1,18 @@
 import { createStore } from "vuex";
 
 class Board {
-  constructor({ id = null, columns = [] } = {}) {
+  constructor({ id = null, columns = [], slug = "" } = {}) {
     this.id = id;
     this.columns = columns;
+    this.slug = slug;
   }
 }
 
 class Column {
-  constructor({ id = null, tasks = [] } = {}) {
+  constructor({ id = null, tasks = [], title = "New column" } = {}) {
     this.id = id;
     this.tasks = tasks;
+    this.title = title;
   }
 }
 
@@ -23,7 +25,7 @@ class Task {
   }
 }
 
-export default createStore({
+const store = createStore({
   state: {
     nextBoadrId: 0,
     nextColId: 0,
@@ -31,10 +33,11 @@ export default createStore({
     boards: [],
   },
   mutations: {
-    addBoard(state) {
+    addBoard(state, newBoard) {
       state.boards.push(
         new Board({
           id: (this.state.nextBoadrId += 1),
+          slug: newBoard.boardSlug,
         })
       );
     },
@@ -60,6 +63,12 @@ export default createStore({
         })
       );
     },
+    removeTask(state, taskToRemove) {
+      const c = taskToRemove.properties.properColumn;
+      const b = taskToRemove.properties.properBoard;
+      const i = taskToRemove.properties.id;
+      state.boards[b].columns[c].tasks.splice(i, 1);
+    },
     updateTask(state, updatedTask) {
       state.boards[updatedTask.properBoard].columns[
         updatedTask.properColumn
@@ -79,8 +88,8 @@ export default createStore({
     },
   },
   actions: {
-    addBoard(context) {
-      context.commit("addBoard");
+    addNewBoard(context, newBoard) {
+      context.commit("addBoard", newBoard);
     },
     addColumn(context, properBoard) {
       context.commit("addColumn", properBoard);
@@ -91,6 +100,23 @@ export default createStore({
     updateTask(context, updatedTask) {
       context.commit("updateTask", updatedTask);
     },
+    // removeTask(context, taskToRemove) {
+    //   // context.commit("removeTask", taskToRemove);
+    //   console.log(taskToRemove);
+    //   console.log(context);
+    // },
   },
   modules: {},
 });
+
+// store.subscribe((mutation, state) => {
+//   localStorage.setItem("store", JSON.stringify(state));
+// });
+
+// store.subscribe((mutation, state) => {
+//   if (mutation === "removeTask") {
+//     localStorage.setItem("store", JSON.stringify(state));
+//   }
+// });
+
+export default store;
