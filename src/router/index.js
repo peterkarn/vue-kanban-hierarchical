@@ -8,7 +8,7 @@ const routes = [
     component: Boards,
   },
   {
-    path: "/:slug",
+    path: "/board/:slug",
     component: Board,
     name: "board",
     props: (route) => ({
