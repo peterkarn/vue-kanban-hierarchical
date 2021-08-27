@@ -1,11 +1,18 @@
 <template>
-  <div>
-    <router-link to="/">Back to boards list</router-link> <br />
-    <button @click="showModal">Add column</button>
-    <ul class="boards-list">
-      <li v-for="(column, i) in properBoardColumns" :key="column.id">
+  <div class="board-single">
+    <router-link class="link board-single__link" to="/"
+      >Back to boards list</router-link
+    >
+    <br />
+    <button class="btn btn_primary" @click="showModal">Add column</button>
+    <ul class="columns">
+      <li
+        class="columns__item item"
+        v-for="(column, i) in properBoardColumns"
+        :key="column.id"
+      >
         <div>
-          <h2>
+          <h2 class="item__title">
             {{ properBoardColumns[i].title }}
           </h2>
         </div>
@@ -65,17 +72,41 @@ export default {
   computed: {
     ...mapState({ columns: (state) => state.boards.columns }),
     properBoardColumns() {
-      return this.$store.state.boards[this.properBoard].columns;
+      return this.$store.state.boards[this.properBoard].columns; //get board by slug here + unique
     },
   },
 };
 </script>
 <style lang="scss">
-.boards-list {
-  display: flex;
-  gap: 20px;
-  li {
-    display: block;
+.board-single {
+  padding: 30px;
+
+  &__link {
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  align-items: start;
+  gap: 30px;
+
+  &__item {
+    background-color: #e8d0b3;
+  }
+}
+
+.item {
+  padding: 30px;
+  min-height: 200px;
+  &__title {
+    margin-bottom: 0.5em;
+    @include truncate(2, 20px);
+  }
+  &__body {
+    min-height: 200px;
   }
 }
 </style>

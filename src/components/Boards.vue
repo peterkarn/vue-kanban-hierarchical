@@ -1,13 +1,17 @@
 <template>
   <div>
-    <button @click="showModal">Add Board</button>
-    <ul>
-      <li v-for="(board, i) in boards" :key="board">
-        <router-link
-          class="board-link"
-          :to="{ name: 'board', params: { slug: board.slug, properBoard: i } }"
-          >{{ board.slug }}
-        </router-link>
+    <button class="btn btn_primary" @click="showModal">Add Board</button>
+    <ul class="boards-list">
+      <li class="boards-list__item" v-for="(board, i) in boards" :key="board">
+        <h2 class="boards-list__title">
+          <router-link
+            :to="{
+              name: 'board',
+              params: { slug: board.slug, properBoard: i },
+            }"
+            >{{ board.slug }}
+          </router-link>
+        </h2>
       </li>
     </ul>
     <popup
@@ -59,3 +63,28 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.boards-list {
+  display: grid;
+  gap: 10px;
+  padding: 30px;
+  background-color: #e8d0b3;
+  list-style: none;
+
+  &__item {
+    background-color: #c36839;
+    color: #fff;
+    transition: transform 0.1s;
+    &:hover {
+      transform: scale(0.99);
+    }
+    &:active {
+      background-color: #99512d;
+    }
+    a {
+      padding: 20px;
+      display: block;
+    }
+  }
+}
+</style>

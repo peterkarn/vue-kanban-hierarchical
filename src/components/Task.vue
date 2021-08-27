@@ -1,11 +1,11 @@
 <template>
   <div class="task">
-    <h3>{{ properTask.title }}</h3>
-    <p>{{ properTask.descr }}</p>
-    <p>{{ properTask.fullDescr }}</p>
+    <h3 class="task__title">{{ properTask.title }}</h3>
+    <p class="task__descr">{{ properTask.descr }}</p>
+    <p class="task__full">{{ properTask.fullDescr }}</p>
     <div class="task__btns">
-      <button @click="removeTask">Remove Task</button>
-      <button @click="showPopup">Edit</button>
+      <button class="btn btn_alert" @click="removeTask">Remove Task</button>
+      <button class="btn btn_primary" @click="showPopup">Edit</button>
     </div>
   </div>
   <popup
@@ -96,11 +96,30 @@ export default {
 </script>
 <style lang="scss">
 .task {
+  margin-top: 20px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  padding: 20px 0;
   cursor: grab;
+  &__title {
+    @include truncate(2, 24px);
+    margin-bottom: 0.5em;
+  }
+
+  &__descr {
+    @include truncate(3, 20px);
+    margin-bottom: 0.5em;
+  }
+
+  &__full {
+    @include truncate(3, 20px);
+    margin-bottom: 0.2em;
+  }
 
   &__btns {
     display: grid;
     gap: 5px;
+    justify-content: center;
 
     button {
       cursor: pointer;

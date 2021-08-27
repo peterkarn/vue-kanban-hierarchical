@@ -12,7 +12,7 @@ const routes = [
     component: Board,
     name: "board",
     props: (route) => ({
-      properBoard: route.params.properBoard,
+      properBoard: route.params.properBoard, // -----
       slug: route.params.slug,
     }),
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="showPopup">Add Task</button>
+    <button class="btn btn_primary" @click="showPopup">Add Task</button>
     <ul class="tasks">
       <draggable v-model="draggables" group="tasks">
         <li v-for="(task, i) in properColumnTasks" :key="task.id">
@@ -111,7 +111,6 @@ export default {
 </script>
 <style lang="scss">
 .tasks {
-  min-height: 500px;
   padding: 0;
 }
 </style>

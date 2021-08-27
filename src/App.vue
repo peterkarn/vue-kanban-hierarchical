@@ -1,9 +1,8 @@
 <template>
-  <div id="app">
-    <div class="page-header">
-      <h1>Kanban Board</h1>
-      <p>vuejs based</p>
-      <hr />
+  <div class="app">
+    <div class="app__header">
+      <h1 class="app__title">Kanban Board</h1>
+      <p class="app__subtitle">vuejs based</p>
     </div>
     <router-view />
   </div>
@@ -11,13 +10,9 @@
 
 <script>
 import { mapState } from "vuex";
-// import Boards from "./components/Boards.vue";
 
 export default {
   props: {},
-  components: {
-    // Boards,
-  },
   computed: {
     ...mapState({ boards: (state) => state.boards }),
   },
@@ -25,23 +20,25 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+.app {
+  max-width: 1440px;
+  margin: 0 auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
+  &__header {
+    text-align: center;
+  }
 
-  a {
+  &__title {
     font-weight: bold;
-    color: #2c3e50;
+    font-size: 40px;
+    color: #070c2c;
+  }
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  &__subtitle {
+    margin-bottom: 1em;
+    font-size: 20px;
   }
 }
 </style>

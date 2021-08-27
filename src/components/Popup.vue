@@ -43,6 +43,7 @@ export default {
   bottom: 0;
   &__body {
     position: fixed;
+    z-index: 1;
     display: grid;
     top: 50px;
     left: 50%;
@@ -51,7 +52,10 @@ export default {
     padding: 30px;
     width: 400px;
     transform: translate(-50%);
-    box-shadow: 0px 0px 155px #4c6063;
+    box-shadow: 0px 0px 155px #7eb5a6;
+    background-color: #e8d0b3;
+    border: 3px solid #7eb5a6;
+    border-radius: 5px;
   }
   &__header,
   &__footer {
