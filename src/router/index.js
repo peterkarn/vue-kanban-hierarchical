@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Board from "@/components/Board.vue";
 import Boards from "@/components/Boards.vue";
+import Details from "@/components/Details.vue";
 
 const routes = [
   {
@@ -11,10 +12,11 @@ const routes = [
     path: "/board/:slug",
     component: Board,
     name: "board",
-    props: (route) => ({
-      properBoard: route.params.properBoard, // -----
-      slug: route.params.slug,
-    }),
+    props: true,
+  },
+  {
+    path: "/details/:id",
+    component: Details,
   },
 ];
 

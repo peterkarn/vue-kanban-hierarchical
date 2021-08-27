@@ -57,9 +57,15 @@ export default {
   methods: {
     showPopup() {
       this.isPopupVisible = true;
+      this.taskToUpdate.newTitle = this.properTask.title;
+      this.taskToUpdate.newDescr = this.properTask.descr;
+      this.taskToUpdate.newFullDescr = this.properTask.fullDescr;
     },
     closePopup() {
       this.isPopupVisible = false;
+      this.taskToUpdate.newTitle = "";
+      this.taskToUpdate.newDescr = "";
+      this.taskToUpdate.newFullDescr = "";
     },
     resetFields() {
       this.taskToUpdate.newTitle = "";

@@ -72,7 +72,9 @@ export default {
   computed: {
     ...mapState({ columns: (state) => state.boards.columns }),
     properBoardColumns() {
-      return this.$store.state.boards[this.properBoard].columns; //get board by slug here + unique
+      return this.$store.state.boards.find(
+        (b) => b.slug === this.$route.params.slug
+      ).columns; // достаю по slug но все равно error
     },
   },
 };

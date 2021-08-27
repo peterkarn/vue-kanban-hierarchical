@@ -1,25 +1,26 @@
 import { createStore } from "vuex";
-import createPersistedState from "vuex-persistedstate";
+import uniqid from "uniqid";
+// import createPersistedState from "vuex-persistedstate";
 
 class Board {
-  constructor({ id = null, columns = [], slug = "" } = {}) {
-    this.id = id;
+  constructor({ columns = [], slug = "" } = {}) {
+    this.id = uniqid();
     this.columns = columns;
     this.slug = slug;
   }
 }
 
 class Column {
-  constructor({ id = null, tasks = [], title = "New column" } = {}) {
-    this.id = id;
+  constructor({ tasks = [], title = "New column" } = {}) {
+    this.id = uniqid();
     this.tasks = tasks;
     this.title = title;
   }
 }
 
 class Task {
-  constructor({ id = null, title = "", descr = "", fullDescr = "" } = {}) {
-    this.id = id;
+  constructor({ title = "", descr = "", fullDescr = "" } = {}) {
+    this.id = uniqid();
     this.title = title;
     this.descr = descr;
     this.fullDescr = fullDescr;
@@ -33,7 +34,7 @@ const store = createStore({
     nextTaskId: 0,
     boards: [],
   },
-  plugins: [createPersistedState()],
+  // plugins: [createPersistedState()],
   mutations: {
     addBoard(state, newBoard) {
       state.boards.push(
