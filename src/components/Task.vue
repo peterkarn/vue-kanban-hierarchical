@@ -94,8 +94,8 @@ export default {
         type: "removeTask",
         properties: {
           id: this.taskIndex,
-          properColumn: this.properColumn,
-          properBoard: this.properBoard,
+          c: this.properColumn,
+          b: this.properBoard,
         },
       });
     },

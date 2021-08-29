@@ -73,8 +73,8 @@ export default {
       this.$store.dispatch({
         type: "addTask",
         properties: {
-          properBoard: this.properBoard,
-          properColumn: this.properColumn,
+          b: this.properBoard,
+          c: this.properColumn,
           taskData: this.taskData,
         },
       });
@@ -110,6 +110,9 @@ export default {
 };
 </script>
 <style lang="scss">
+div [group="tasks"] {
+  min-height: 200px;
+}
 .tasks {
   padding: 0;
 }

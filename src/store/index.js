@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 import uniqid from "uniqid";
-// import createPersistedState from "vuex-persistedstate";
 
 class Board {
   constructor({ columns = [], slug = "" } = {}) {
@@ -11,7 +10,7 @@ class Board {
 }
 
 class Column {
-  constructor({ tasks = [], title = "New column" } = {}) {
+  constructor({ tasks = [], title = "" } = {}) {
     this.id = uniqid();
     this.tasks = tasks;
     this.title = title;
@@ -34,7 +33,6 @@ const store = createStore({
     nextTaskId: 0,
     boards: [],
   },
-  // plugins: [createPersistedState()],
   mutations: {
     addBoard(state, newBoard) {
       state.boards.push(
@@ -53,11 +51,8 @@ const store = createStore({
       );
     },
     addTask(state, payload) {
-      const c = payload.properties.properColumn;
-      const b = payload.properties.properBoard;
-      const title = payload.properties.taskData.title;
-      const descr = payload.properties.taskData.descr;
-      const fullDescr = payload.properties.taskData.fullDescr;
+      const { b, c } = payload.properties;
+      const { title, descr, fullDescr } = payload.properties.taskData;
       state.boards[b].columns[c].tasks.push(
         new Task({
           id: (this.state.nextTaskId += 1),
@@ -68,10 +63,9 @@ const store = createStore({
       );
     },
     removeTask(state, taskToRemove) {
-      const c = taskToRemove.properties.properColumn;
-      const b = taskToRemove.properties.properBoard;
-      const i = taskToRemove.properties.id;
-      state.boards[b].columns[c].tasks.splice(i, 1);
+      const { id, c, b } = taskToRemove.properties;
+      state.boards[b].columns[c].tasks.splice(id, 1);
+      console.log(id, c, b);
     },
     updateTask(state, updatedTask) {
       state.boards[updatedTask.properBoard].columns[

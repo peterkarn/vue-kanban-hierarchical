@@ -18,10 +18,7 @@ const routes = [
     path: "/board/:slug-:properBoard/task-:col-:idx-:id",
     name: "details",
     component: Details,
-    props: (route) => {
-      console.log({ ...route.params });
-      return { ...route.params };
-    },
+    props: true,
   },
 ];
 

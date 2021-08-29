@@ -64,7 +64,7 @@ export default {
       this.closePopup();
     },
     closePopup() {
-      this.newColumn.columnSlug = "";
+      this.newColumn.columnTitle = "";
       this.isPopupVisible = false;
     },
     ...mapActions(["addColumn"]),

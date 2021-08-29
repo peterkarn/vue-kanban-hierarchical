@@ -28,8 +28,8 @@ export default {
         type: "removeTask",
         properties: {
           id: this.$route.params.idx,
-          properColumn: this.$route.params.col,
-          properBoard: this.$route.params.properBoard,
+          c: this.$route.params.col,
+          b: this.$route.params.properBoard,
         },
       });
     },
