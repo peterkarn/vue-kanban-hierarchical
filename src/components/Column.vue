@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <button class="btn btn_primary" @click="showPopup">Add Task</button>
-    <ul class="tasks">
+  <div class="column">
+    <div class="column__btns">
+      <button class="btn btn_alert" @click="removeColumn">Remove column</button>
+      <button class="btn btn_primary" @click="showPopup">Add Task</button>
+    </div>
+    <ul class="column__tasks tasks">
       <draggable v-model="draggables" group="tasks">
         <li v-for="(task, i) in properColumnTasks" :key="task.id">
           <task
@@ -85,6 +88,12 @@ export default {
       this.resetFields();
       this.isPopupVisible = false;
     },
+    removeColumn() {
+      this.$store.commit("removeColumn", {
+        c: this.properColumn,
+        b: this.properBoard,
+      });
+    },
     ...mapActions(["addTask"]),
   },
   computed: {
@@ -110,6 +119,19 @@ export default {
 };
 </script>
 <style lang="scss">
+.column {
+  &__btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    justify-content: center;
+
+    .btn {
+      min-width: 50px;
+    }
+  }
+}
+
 div [group="tasks"] {
   min-height: 200px;
 }

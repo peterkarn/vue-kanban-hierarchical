@@ -63,26 +63,39 @@ const store = createStore({
       );
     },
     removeTask(state, taskToRemove) {
-      const { id, c, b } = taskToRemove.properties;
-      state.boards[b].columns[c].tasks.splice(id, 1);
-      console.log(id, c, b);
+      if (confirm("Are U sure")) {
+        const { id, c, b } = taskToRemove.properties;
+        state.boards[b].columns[c].tasks.splice(id, 1);
+      }
     },
     updateTask(state, updatedTask) {
-      state.boards[updatedTask.properBoard].columns[
-        updatedTask.properColumn
-      ].tasks.splice(
-        [updatedTask.taskIndex],
+      const {
+        newTitle,
+        newDescr,
+        newFullDescr,
+        taskIndex,
+        properColumn,
+        properBoard,
+      } = updatedTask;
+      state.boards[properBoard].columns[properColumn].tasks.splice(
+        [taskIndex],
         1,
         new Task({
           id: (this.state.nextTaskId += 1),
-          title: updatedTask.newTitle,
-          descr: updatedTask.newDescr,
-          fullDescr: updatedTask.newFullDescr,
+          title: newTitle,
+          descr: newDescr,
+          fullDescr: newFullDescr,
         })
       );
     },
     reorderTasks(state, { properColumnTasks, board, col }) {
       state.boards[board].columns[col].tasks = properColumnTasks;
+    },
+    removeColumn(state, payload) {
+      if (confirm("Are U sure")) {
+        const { c, b } = payload;
+        delete state.boards[b].columns.splice(c, 1);
+      }
     },
     initialiseStore(state) {
       if (localStorage.getItem("store")) {
