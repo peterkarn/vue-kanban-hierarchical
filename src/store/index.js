@@ -90,6 +90,13 @@ const store = createStore({
     reorderTasks(state, { properColumnTasks, board, col }) {
       state.boards[board].columns[col].tasks = properColumnTasks;
     },
+    initialiseStore(state) {
+      if (localStorage.getItem("store")) {
+        this.replaceState(
+          Object.assign(state, JSON.parse(localStorage.getItem("store")))
+        );
+      }
+    },
   },
   actions: {
     addNewBoard(context, newBoard) {
@@ -106,6 +113,10 @@ const store = createStore({
     },
   },
   modules: {},
+});
+
+store.subscribe((mutation, state) => {
+  localStorage.setItem("store", JSON.stringify(state));
 });
 
 export default store;

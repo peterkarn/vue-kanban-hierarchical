@@ -12,9 +12,11 @@
 import { mapState } from "vuex";
 
 export default {
-  props: {},
   computed: {
     ...mapState({ boards: (state) => state.boards }),
+  },
+  beforeCreate() {
+    this.$store.commit("initialiseStore");
   },
 };
 </script>

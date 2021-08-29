@@ -6,6 +6,18 @@
     <div class="task__btns">
       <button class="btn btn_alert" @click="removeTask">Remove Task</button>
       <button class="btn btn_primary" @click="showPopup">Edit</button>
+      <router-link
+        class="btn btn_primary"
+        :to="{
+          name: 'details',
+          params: {
+            id: properTask.id,
+            col: properColumn,
+            idx: taskIndex,
+          },
+        }"
+        >View
+      </router-link>
     </div>
   </div>
   <popup
