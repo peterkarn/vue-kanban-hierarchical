@@ -11,6 +11,8 @@
             :taskIndex="i"
             :properColumn="this.properColumn"
             :properBoard="this.properBoard"
+            :relatedToBoard="this.relatedToBoard"
+            :key="task.id"
           ></task>
         </li>
       </draggable>
@@ -47,6 +49,7 @@ export default {
   props: {
     properColumn: Number,
     properBoard: String,
+    relatedToBoard: String,
   },
   data() {
     return {
@@ -55,6 +58,7 @@ export default {
         title: "",
         descr: "",
         fullDescr: "",
+        relatedToBoard: this.relatedToBoard,
       },
     };
   },
@@ -76,8 +80,9 @@ export default {
       this.$store.dispatch({
         type: "addTask",
         properties: {
-          b: this.properBoard,
-          c: this.properColumn,
+          board: this.properBoard,
+          column: this.properColumn,
+          relatedToBoard: this.relatedToBoard,
           taskData: this.taskData,
         },
       });

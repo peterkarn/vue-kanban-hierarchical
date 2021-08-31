@@ -2,70 +2,89 @@ import { createStore } from "vuex";
 import uniqid from "uniqid";
 
 class Board {
-  constructor({ columns = [], slug = "" } = {}) {
+  constructor({ columns = [], slug = "", title = "" } = {}) {
     this.id = uniqid();
     this.columns = columns;
     this.slug = slug;
+    this.title = title;
   }
 }
 
 class Column {
-  constructor({ tasks = [], title = "" } = {}) {
+  constructor({ tasks = [], title = "", relatedToBoard = "" } = {}) {
     this.id = uniqid();
     this.tasks = tasks;
     this.title = title;
+    this.relatedToBoard = relatedToBoard;
   }
 }
 
 class Task {
-  constructor({ title = "", descr = "", fullDescr = "" } = {}) {
+  constructor({
+    title = "",
+    descr = "",
+    fullDescr = "",
+    relatedToBoard = "",
+  } = {}) {
     this.id = uniqid();
     this.title = title;
     this.descr = descr;
     this.fullDescr = fullDescr;
+    this.relatedToBoard = relatedToBoard;
   }
 }
 
+const defaultState = {
+  boards: [],
+};
+
+function getLocalStorageState() {
+  return JSON.parse(localStorage.getItem("store")) ?? defaultState;
+}
+
 const store = createStore({
-  state: {
-    nextBoadrId: 0,
-    nextColId: 0,
-    nextTaskId: 0,
-    boards: [],
-  },
+  state: getLocalStorageState(),
   mutations: {
     addBoard(state, newBoard) {
       state.boards.push(
         new Board({
-          id: (this.state.nextBoadrId += 1),
+          id: uniqid(),
           slug: newBoard.boardSlug,
+          title: newBoard.boardTitle,
         })
       );
     },
     addColumn(state, newColumn) {
-      state.boards[newColumn.columnBoard].columns.push(
+      const index = state.boards.findIndex(
+        (item) => item.slug === newColumn.relatedToBoard
+      );
+      state.boards[index].columns.push(
         new Column({
-          id: (this.state.nextColId += 1),
+          // id: uniqid(),
+          id: newColumn.id,
           title: newColumn.columnTitle,
+          relatedToBoard: newColumn.relatedToBoard,
         })
       );
     },
     addTask(state, payload) {
-      const { b, c } = payload.properties;
-      const { title, descr, fullDescr } = payload.properties.taskData;
-      state.boards[b].columns[c].tasks.push(
+      const { board, column } = payload.properties;
+      const { title, descr, fullDescr, relatedToBoard } =
+        payload.properties.taskData;
+      state.boards[board].columns[column].tasks.push(
         new Task({
-          id: (this.state.nextTaskId += 1),
+          id: uniqid(),
           title: title,
           descr: descr,
           fullDescr: fullDescr,
+          relatedToBoard: relatedToBoard,
         })
       );
     },
     removeTask(state, taskToRemove) {
       if (confirm("Are U sure")) {
-        const { id, c, b } = taskToRemove.properties;
-        state.boards[b].columns[c].tasks.splice(id, 1);
+        const { id, column, board } = taskToRemove.properties;
+        state.boards[board].columns[column].tasks.splice(id, 1);
       }
     },
     updateTask(state, updatedTask) {
@@ -93,8 +112,8 @@ const store = createStore({
     },
     removeColumn(state, payload) {
       if (confirm("Are U sure")) {
-        const { c, b } = payload;
-        delete state.boards[b].columns.splice(c, 1);
+        const { column, board } = payload;
+        delete state.boards[board].columns.splice(column, 1);
       }
     },
     initialiseStore(state) {

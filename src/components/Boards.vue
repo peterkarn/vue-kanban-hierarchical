@@ -9,7 +9,7 @@
               name: 'board',
               params: { slug: board.slug, properBoard: i },
             }"
-            >{{ board.slug }}
+            >{{ board.title }}
           </router-link>
         </h2>
       </li>
@@ -22,8 +22,8 @@
       @confirmEdit="addBoard"
     >
       <label>
-        <span>Board slug</span>
-        <input type="text" v-model="newBoard.boardSlug" />
+        <span>Enter board name</span>
+        <input type="text" @input="trimmed" />
       </label>
     </popup>
   </div>
@@ -40,6 +40,7 @@ export default {
     return {
       isPopupVisible: false,
       newBoard: {
+        boardTitle: "",
         boardSlug: "",
       },
     };
@@ -57,6 +58,12 @@ export default {
       this.closePopup();
     },
     ...mapActions(["addNewBoard"]),
+    trimmed(e) {
+      this.newBoard.boardTitle = e.target.value;
+      this.newBoard.boardSlug = e.target.value
+        .replace(/\s+/g, "-")
+        .toLowerCase();
+    },
   },
   computed: {
     ...mapState({ boards: (state) => state.boards }),

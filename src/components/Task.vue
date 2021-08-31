@@ -49,6 +49,7 @@ export default {
     taskIndex: Number,
     properColumn: Number,
     properBoard: String,
+    key: String,
   },
   components: {
     Popup,
@@ -94,8 +95,8 @@ export default {
         type: "removeTask",
         properties: {
           id: this.taskIndex,
-          c: this.properColumn,
-          b: this.properBoard,
+          column: this.properColumn,
+          board: this.properBoard,
         },
       });
     },

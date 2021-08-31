@@ -5,6 +5,10 @@
     >
     <br />
     <button class="btn btn_primary" @click="showModal">Add column</button>
+    <div>
+      <!-- <p>{{ idx }} is the index of this board in [boards]</p> -->
+      <!-- <p>{{ properBoard }} is the properBoard from props</p> -->
+    </div>
     <ul class="columns">
       <li
         class="columns__item item"
@@ -16,7 +20,11 @@
             {{ properBoardColumns[i].title }}
           </h2>
         </div>
-        <column :properBoard="properBoard" :properColumn="i"></column>
+        <column
+          :properBoard="properBoard"
+          :relatedToBoard="this.$route.params.slug"
+          :properColumn="i"
+        ></column>
       </li>
     </ul>
     <popup
@@ -43,7 +51,7 @@ export default {
       isPopupVisible: false,
       newColumn: {
         columnTitle: "",
-        columnBoard: this.properBoard,
+        relatedToBoard: this.$route.params.slug,
       },
     };
   },
@@ -70,11 +78,17 @@ export default {
     ...mapActions(["addColumn"]),
   },
   computed: {
+    ...mapState({ boards: (state) => state.boards }),
     ...mapState({ columns: (state) => state.boards.columns }),
     properBoardColumns() {
       return this.$store.state.boards.find(
         (b) => b.slug === this.$route.params.slug
-      ).columns; // достаю по slug но все равно error
+      ).columns;
+    },
+    idx() {
+      return this.boards.findIndex(
+        (board) => board.slug === this.$route.params.slug
+      );
     },
   },
 };
@@ -90,13 +104,14 @@ export default {
 }
 
 .columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  display: flex;
+  overflow: auto;
   align-items: start;
   gap: 30px;
 
   &__item {
     background-color: #e8d0b3;
+    flex: 0 0 330px;
   }
 }
 
