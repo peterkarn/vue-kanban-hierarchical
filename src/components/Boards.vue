@@ -70,6 +70,10 @@ export default {
 };
 </script>
 <style lang="scss">
+.boards {
+  max-width: 1440px;
+  margin: 0 auto;
+}
 .boards-list {
   display: grid;
   gap: 10px;
