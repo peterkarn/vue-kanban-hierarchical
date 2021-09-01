@@ -46,7 +46,9 @@ export default {
 </script>
 <style lang="scss">
 .details {
-  &__title {
+  max-width: 1440px;
+  margin: 0 auto;
+  gi &__title {
     font-size: 40px;
     margin-bottom: 20px;
   }
