@@ -9,13 +9,13 @@ const routes = [
     component: Boards,
   },
   {
-    path: "/board/:slug-:properBoard",
+    path: "/board/:slug",
     component: Board,
     name: "board",
     props: true,
   },
   {
-    path: "/board/:slug-:properBoard/task-:col-:idx-:id",
+    path: "/board/:slug/column/:parentColumn/task/:taskId",
     name: "details",
     component: Details,
     props: true,

@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <button class="btn btn_primary" @click="showModal">Add Board</button>
+  <div class="boards">
+    <button class="btn btn_primary" @click="showModal">add board</button>
     <ul class="boards-list">
-      <li class="boards-list__item" v-for="(board, i) in boards" :key="board">
+      <li class="boards-list__item" v-for="board in boards" :key="board">
         <h2 class="boards-list__title">
           <router-link
             :to="{
               name: 'board',
-              params: { slug: board.slug, properBoard: i },
+              params: { slug: board.slug },
             }"
             >{{ board.title }}
           </router-link>
@@ -34,8 +34,6 @@ import { mapState, mapActions } from "vuex";
 import Popup from "../components/Popup.vue";
 
 export default {
-  props: {},
-  components: { Popup },
   data() {
     return {
       isPopupVisible: false,
@@ -45,6 +43,7 @@ export default {
       },
     };
   },
+  components: { Popup },
   methods: {
     showModal() {
       this.isPopupVisible = true;

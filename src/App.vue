@@ -8,16 +8,6 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
-
-export default {
-  computed: {
-    ...mapState({ boards: (state) => state.boards }),
-  },
-};
-</script>
-
 <style lang="scss">
 .app {
   max-width: 1440px;

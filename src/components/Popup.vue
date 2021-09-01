@@ -33,7 +33,6 @@ export default {
   computed: {},
 };
 </script>
-
 <style lang="scss">
 .v-popup {
   position: absolute;

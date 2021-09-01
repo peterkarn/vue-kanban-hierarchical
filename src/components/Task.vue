@@ -1,8 +1,8 @@
 <template>
   <div class="task">
-    <h3 class="task__title">{{ properTask.title }}</h3>
-    <p class="task__descr">{{ properTask.descr }}</p>
-    <p class="task__full">{{ properTask.fullDescr }}</p>
+    <h3 class="task__title">{{ task.title }}</h3>
+    <p class="task__descr">{{ task.descr }}</p>
+    <p class="task__full">{{ task.fullDescr }}</p>
     <div class="task__btns">
       <button class="btn btn_alert" @click="removeTask">Remove Task</button>
       <button class="btn btn_primary" @click="showPopup">Edit</button>
@@ -11,9 +11,9 @@
         :to="{
           name: 'details',
           params: {
-            id: properTask.id,
-            col: properColumn,
-            idx: taskIndex,
+            taskId: task.id,
+            parentBoard: this.parentBoard,
+            parentColumn: this.parentColumn,
           },
         }"
         >View
@@ -45,12 +45,7 @@
 import { mapState } from "vuex";
 import Popup from "./Popup.vue";
 export default {
-  props: {
-    taskIndex: Number,
-    properColumn: Number,
-    properBoard: String,
-    key: String,
-  },
+  props: ["taskId", "parentColumn", "parentBoard"],
   components: {
     Popup,
   },
@@ -61,18 +56,18 @@ export default {
         newTitle: "",
         newDescr: "",
         newFullDescr: "",
-        taskIndex: this.taskIndex,
-        properColumn: this.properColumn,
-        properBoard: this.properBoard,
+        task: this.taskId,
+        column: this.parentColumn,
+        board: this.parentBoard,
       },
     };
   },
   methods: {
     showPopup() {
       this.isPopupVisible = true;
-      this.taskToUpdate.newTitle = this.properTask.title;
-      this.taskToUpdate.newDescr = this.properTask.descr;
-      this.taskToUpdate.newFullDescr = this.properTask.fullDescr;
+      this.taskToUpdate.newTitle = this.task.title;
+      this.taskToUpdate.newDescr = this.task.descr;
+      this.taskToUpdate.newFullDescr = this.task.fullDescr;
     },
     closePopup() {
       this.isPopupVisible = false;
@@ -94,21 +89,20 @@ export default {
       this.$store.commit({
         type: "removeTask",
         properties: {
-          id: this.taskIndex,
-          column: this.properColumn,
-          board: this.properBoard,
+          id: this.taskId,
+          column: this.parentColumn,
+          board: this.parentBoard,
         },
       });
     },
-    // ...mapActions(["removeTask"]),
   },
   computed: {
     ...mapState({ columns: (state) => state.boards.columns }),
-    properTask() {
-      const b = this.properBoard;
-      const c = this.properColumn;
-      const i = this.taskIndex;
-      return this.$store.state.boards[b].columns[c].tasks[i];
+    task() {
+      const board = this.parentBoard;
+      const column = this.parentColumn;
+      const id = this.taskId;
+      return this.$store.getters.getTask(board, column, id);
     },
   },
 };
@@ -121,17 +115,14 @@ export default {
   padding: 20px 0;
   cursor: grab;
   &__title {
-    @include truncate(2, 24px);
     margin-bottom: 0.5em;
   }
 
   &__descr {
-    @include truncate(3, 20px);
     margin-bottom: 0.5em;
   }
 
   &__full {
-    @include truncate(3, 20px);
     margin-bottom: 0.2em;
   }
 

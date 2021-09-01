@@ -6,13 +6,11 @@
     </div>
     <ul class="column__tasks tasks">
       <draggable v-model="draggables" group="tasks">
-        <li v-for="(task, i) in properColumnTasks" :key="task.id">
+        <li v-for="task in tasks" :key="task.id">
           <task
-            :taskIndex="i"
-            :properColumn="this.properColumn"
-            :properBoard="this.properBoard"
-            :relatedToBoard="this.relatedToBoard"
-            :key="task.id"
+            :parentBoard="this.parentBoard"
+            :parentColumn="this.columnID"
+            :taskId="task.id"
           ></task>
         </li>
       </draggable>
@@ -47,9 +45,8 @@ import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
   props: {
-    properColumn: Number,
-    properBoard: String,
-    relatedToBoard: String,
+    parentBoard: String,
+    columnID: String,
   },
   data() {
     return {
@@ -58,7 +55,8 @@ export default {
         title: "",
         descr: "",
         fullDescr: "",
-        relatedToBoard: this.relatedToBoard,
+        parentBoard: this.parentBoard,
+        parentColumn: this.columnID,
       },
     };
   },
@@ -80,9 +78,8 @@ export default {
       this.$store.dispatch({
         type: "addTask",
         properties: {
-          board: this.properBoard,
-          column: this.properColumn,
-          relatedToBoard: this.relatedToBoard,
+          parentBoard: this.parentBoard,
+          parentColumn: this.columnID,
           taskData: this.taskData,
         },
       });
@@ -95,28 +92,28 @@ export default {
     },
     removeColumn() {
       this.$store.commit("removeColumn", {
-        c: this.properColumn,
-        b: this.properBoard,
+        column: this.columnID,
+        board: this.parentBoard,
       });
     },
     ...mapActions(["addTask"]),
   },
   computed: {
     ...mapState({ columns: (state) => state.boards.columns }),
-    properColumnTasks() {
-      const b = this.properBoard;
-      const c = this.properColumn;
-      return this.$store.state.boards[b].columns[c].tasks;
+    tasks() {
+      const board = this.parentBoard;
+      const column = this.columnID;
+      return this.$store.getters.getColumn(board, column).tasks;
     },
     draggables: {
       get() {
-        return this.properColumnTasks;
+        return this.tasks;
       },
-      set(properColumnTasks) {
+      set(tasks) {
         this.$store.commit("reorderTasks", {
-          properColumnTasks,
-          board: this.properBoard,
-          col: this.properColumn,
+          tasks,
+          board: this.parentBoard,
+          col: this.columnID,
         });
       },
     },

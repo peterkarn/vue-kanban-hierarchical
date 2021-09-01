@@ -5,25 +5,14 @@
     >
     <br />
     <button class="btn btn_primary" @click="showModal">Add column</button>
-    <div>
-      <!-- <p>{{ idx }} is the index of this board in [boards]</p> -->
-      <!-- <p>{{ properBoard }} is the properBoard from props</p> -->
-    </div>
     <ul class="columns">
-      <li
-        class="columns__item item"
-        v-for="(column, i) in properBoardColumns"
-        :key="column.id"
-      >
+      <li class="columns__item item" v-for="column in columns" :key="column.id">
         <div>
-          <h2 class="item__title">
-            {{ properBoardColumns[i].title }}
-          </h2>
+          <h2 class="item__title">Title: {{ column.title }}</h2>
         </div>
         <column
-          :properBoard="properBoard"
-          :relatedToBoard="this.$route.params.slug"
-          :properColumn="i"
+          :parentBoard="this.$route.params.slug"
+          :columnID="column.id"
         ></column>
       </li>
     </ul>
@@ -41,7 +30,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 import Column from "./Column.vue";
 import Popup from "./Popup.vue";
 
@@ -51,12 +40,11 @@ export default {
       isPopupVisible: false,
       newColumn: {
         columnTitle: "",
-        relatedToBoard: this.$route.params.slug,
+        board: this.slug,
       },
     };
   },
   props: {
-    properBoard: String,
     slug: String,
   },
   components: {
@@ -78,17 +66,9 @@ export default {
     ...mapActions(["addColumn"]),
   },
   computed: {
-    ...mapState({ boards: (state) => state.boards }),
-    ...mapState({ columns: (state) => state.boards.columns }),
-    properBoardColumns() {
-      return this.$store.state.boards.find(
-        (b) => b.slug === this.$route.params.slug
-      ).columns;
-    },
-    idx() {
-      return this.boards.findIndex(
-        (board) => board.slug === this.$route.params.slug
-      );
+    columns() {
+      const slug = this.slug;
+      return this.$store.getters.getBoardBySlug(slug).columns;
     },
   },
 };
@@ -120,7 +100,6 @@ export default {
   min-height: 200px;
   &__title {
     margin-bottom: 0.5em;
-    @include truncate(2, 20px);
   }
   &__body {
     min-height: 200px;

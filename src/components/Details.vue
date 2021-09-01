@@ -1,6 +1,4 @@
 <template>
-  <!-- <router-link to=""> -->
-  <!-- </router-link> -->
   <div class="details">
     <h2 class="details__title">Task details</h2>
     <div class="details__btns">
@@ -27,9 +25,9 @@ export default {
       this.$store.commit({
         type: "removeTask",
         properties: {
-          id: this.$route.params.idx,
-          column: this.$route.params.col,
-          board: this.$route.params.properBoard,
+          id: this.$route.params.taskId,
+          column: this.$route.params.parentColumn,
+          board: this.$route.params.parentBoard,
         },
       });
     },
@@ -40,7 +38,7 @@ export default {
       const task = this.boards
         .flatMap((b) => b.columns)
         .flatMap((c) => c.tasks)
-        .filter((t) => t.id === this.$route.params.id);
+        .filter((t) => t.id === this.$route.params.taskId);
       return task[0];
     },
   },
